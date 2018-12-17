@@ -1,6 +1,7 @@
 # ElectronBeamWelding
 Data Modellings for Experimental Data in Python3
 
+- Contains the following: Artificial Neural Network, Support Vector Regressor, SGD optimised Linear Regressor 
 - Ensure you have the following installed on your computer:
 1) Python3
 2) The following dependencies: PyTorch, Pandas, Numpy, sklearn, Matplotlib
