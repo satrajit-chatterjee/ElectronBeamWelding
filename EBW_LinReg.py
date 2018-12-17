@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import time
 
 
 def dataset_maker():
@@ -77,13 +78,28 @@ def testing():
     print("************************************************************************")
     print("*********************************TESTING********************************")
     print("************************************************************************")
+    start_time = time.time()
     _, dataset = dataset_maker()
     dataset = np.array([[float(data / 100) for data in something] for something in dataset])
+    print("GROUND TRUTH\t\tPREDICTED\t\tRMSE\t\tMAPE\nBW\t\tBP\t\t\tBW\t\tBP")
+    total_rmse = 0.0
+    total_mape = 0.0
+    total_i = 0.0
     for i in range(10):
         x = dataset[i, :4]
         y = dataset[i, 4:6]
-        print("x = ", x, "\n", "f(x) = ", y * 100, "\n", "predicted f(x) = ", (np.dot(m, x)) * 100, "Cost = ",
-              cost_function(m, dataset, i), "\n")
+        truth = y * 100
+        predicted = np.dot(m, x) * 100
+        rmse = np.sqrt(((truth - predicted) ** 2).mean())
+        total_rmse += rmse
+        total_i += 1.0
+        mape = np.mean(np.abs((truth - predicted) / truth)) * 100
+        total_mape += mape
+        print("%.2f\t%.2f" % (truth[0], truth[1]),
+              "\t\t%.2f\t%.2f\t%.3f\t\t%.3f%%" % (predicted[0], predicted[1], rmse, mape), "\n")
+    print("Time taken: %.5f" % (time.time() - start_time))
+    print("Average RMSE: %.5f" % (total_rmse / total_i))
+    print("Average MAPE: %.5f" % (total_mape / total_i))
 
 
 testing()
